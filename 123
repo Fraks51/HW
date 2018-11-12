@@ -1,0 +1,83 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+inline int binpow (int a, int n) {
+    if (n == 0) return 1;
+    if (n % 2 == 1) return binpow (a, n-1) * a;
+    else {
+        int b = binpow (a, n/2);
+        return b * b;
+    }
+}
+
+struct boolElement {
+    int inputsCount;
+    int nowValue = 0;
+    vector<int> inputs;
+    vector<bool> value;
+};
+
+inline int bfs (int n, vector<boolElement>& scheme, vector<int>& boo) {
+    int maximum = 0;
+    for (auto now : scheme[n].inputs) {
+        maximum = max(maximum, bfs(now - 1, scheme, boo));
+    }
+    if (maximum == 0) {
+        boo.push_back(n);
+    }
+    return maximum + 1;
+}
+
+inline bool valueScheme(vector<boolElement>& scheme) {
+    for (int i = 0; i < scheme.size(); i++) {
+        if (scheme[i].inputsCount != 0) {
+            int sum = 0;
+            for (int j = 0, c = scheme[i].inputsCount - 1; c >= 0; j++,c--) {
+                sum += scheme[scheme[i].inputs[j] - 1].nowValue * binpow(2, c);
+            }
+            scheme[i].nowValue = scheme[i].value[sum];
+        }
+    }
+    return scheme[scheme.size() - 1].nowValue;
+}
+
+int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(NULL);
+    int n;
+    cin >> n;
+    vector<boolElement> scheme;
+    for (int i = 0; i < n; i++) {
+        boolElement temp;
+        cin >> temp.inputsCount;
+        for (int j = 0; j < temp.inputsCount; j++) {
+            int current;
+            cin >> current;
+            temp.inputs.push_back(current);
+        }
+        if (temp.inputsCount != 0) {
+            for (int j = 0; j < binpow(2, temp.inputsCount); j++) {
+                int current;
+                cin >> current;
+                temp.value.push_back(current);
+            }
+        }
+        scheme.push_back(temp);
+    }
+    vector<int> boo;
+    cout << bfs(n - 1, scheme, boo) - 1 << endl;
+    if (valueScheme(scheme) == 1) cout << 1;
+    else cout << 0;
+    for (int i = 0; i < binpow(2, boo.size()) - 1; i++) {
+        int k = boo.size() - 1;
+        while (scheme[boo[k]].nowValue != 0) {
+            scheme[boo[k]].nowValue = 0;
+            k--;
+        }
+        scheme[boo[k]].nowValue = 1;
+        if (valueScheme(scheme) == 1) cout << 1;
+        else cout << 0;
+    }
+    return 0;
+}
