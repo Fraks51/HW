@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BinarySearch/BinarySearch.iml" filepath="$PROJECT_DIR$/BinarySearch/BinarySearch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GenericExpression/GenericExpression.iml" filepath="$PROJECT_DIR$/GenericExpression/GenericExpression.iml" />
       <module fileurl="file://$PROJECT_DIR$/HW.iml" filepath="$PROJECT_DIR$/HW.iml" />
     </modules>
   </component>
