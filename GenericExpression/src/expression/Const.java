@@ -1,14 +1,14 @@
 package expression;
 
 
-public class Const implements TripleExpression {
-    private final Number value;
+public class Const<T> implements TripleExpression<T> {
+    private final T value;
 
-    public Const(Number x) {
+    public Const(T x) {
         value = x;
     }
 
-    public int evaluate(int x, int y, int z) {
-        return value.intValue();
+    public T evaluate(T x, T y, T z) {
+        return value;
     }
 }

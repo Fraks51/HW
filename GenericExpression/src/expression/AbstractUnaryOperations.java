@@ -1,19 +1,20 @@
 package expression;
 
 import expression.exceptions.IllegalOperationException;
+import expression.generic.Type;
 
-public abstract class AbstractUnaryOperations implements TripleExpression {
-    protected final TripleExpression operand;
+public abstract class AbstractUnaryOperations<T> implements TripleExpression<T> {
+    protected final TripleExpression<T> operand;
+    protected final Type<T> type;
 
-    protected AbstractUnaryOperations(TripleExpression operand) {
+    protected AbstractUnaryOperations(TripleExpression operand, Type<T> type) {
         this.operand = operand;
+        this.type = type;
     }
 
-    protected abstract void check(int operand) throws IllegalOperationException;
+    protected abstract T compute(T operand) throws IllegalOperationException;
 
-    protected abstract int compute(int operand) throws IllegalOperationException;
-
-    public int evaluate(final int x, final int y, final int z) throws IllegalOperationException {
+    public T evaluate(final T x, final T y, final T z) throws IllegalOperationException {
         return compute(operand.evaluate(x, y, z));
     }
 }

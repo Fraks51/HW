@@ -1,21 +1,16 @@
 package expression;
 
 import expression.exceptions.OverflowOperationException;
+import expression.exceptions.SqrtOfNegativeNumberException;
+import expression.generic.Type;
 
-public class CheckedNegate extends AbstractUnaryOperations {
+public class CheckedNegate<T> extends AbstractUnaryOperations<T> {
 
-    public CheckedNegate(TripleExpression operand) {
-        super(operand);
+    public CheckedNegate(TripleExpression<T> operand, Type<T> type) {
+        super(operand, type);
     }
 
-    protected void check(int operand) throws OverflowOperationException {
-        if (operand == Integer.MIN_VALUE) {
-            throw new OverflowOperationException("unary minus", operand);
-        }
-    }
-
-    protected int compute(int operand) throws OverflowOperationException {
-        check(operand);
-        return -operand;
+    protected T compute(T operand) throws OverflowOperationException {
+        return type.negate(operand);
     }
 }

@@ -1,26 +1,15 @@
 package expression;
 
 import expression.exceptions.*;
+import expression.generic.Type;
 
-public class CheckedAbs extends AbstractUnaryOperations {
-    public CheckedAbs(TripleExpression operand) {
-        super(operand);
+public class CheckedAbs<T> extends AbstractUnaryOperations<T> {
+    public CheckedAbs(TripleExpression<T> operand, Type<T> type) {
+        super(operand, type);
     }
 
-
-    protected void check(int operand) throws OverflowOperationException {
-        if (operand == Integer.MIN_VALUE) {
-            throw new OverflowOperationException("abs", operand);
-        }
-    }
-
-    protected int compute(int operand) throws OverflowOperationException {
-        check(operand);
-        if (operand >= 0) {
-            return operand;
-        } else {
-            return -operand;
-        }
+    protected T compute(T operand) throws OverflowOperationException {
+        return type.abs(operand);
     }
 
 }

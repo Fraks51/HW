@@ -2,29 +2,14 @@ package expression;
 
 import expression.exceptions.IllegalOperationException;
 import expression.exceptions.OverflowOperationException;
+import expression.generic.Type;
 
-public class CheckedMultiply extends AbstractCommonOperations {
-    public CheckedMultiply(TripleExpression firstOperand, TripleExpression secondOperand) {
-        super(firstOperand, secondOperand);
+public class CheckedMultiply<T> extends AbstractCommonOperations<T> {
+    public CheckedMultiply(TripleExpression<T> firstOperand, TripleExpression<T> secondOperand, Type<T> type) {
+        super(firstOperand, secondOperand, type);
     }
 
-    protected void check(int firstOperand, int secondOperand) throws IllegalOperationException {
-        if (firstOperand > 0 && secondOperand > 0 && Integer.MAX_VALUE / firstOperand < secondOperand) {
-            throw new OverflowOperationException("multiply", firstOperand, secondOperand);
-        }
-        if (firstOperand < 0 && secondOperand < 0 && Integer.MAX_VALUE / firstOperand > secondOperand) {
-            throw new OverflowOperationException("multiply", firstOperand, secondOperand);
-        }
-        if (firstOperand > 0 && secondOperand < 0 && Integer.MIN_VALUE / firstOperand > secondOperand) {
-            throw new OverflowOperationException("multiply", firstOperand, secondOperand);
-        }
-        if (firstOperand < 0 && secondOperand > 0 && Integer.MIN_VALUE / secondOperand > firstOperand) {
-            throw new OverflowOperationException("multiply", firstOperand, secondOperand);
-        }
-    }
-
-    protected int compute(int firstOperand, int secondOperand) throws IllegalOperationException {
-        check(firstOperand, secondOperand);
-        return firstOperand * secondOperand;
+    protected T compute(T firstOperand, T secondOperand) throws IllegalOperationException {
+        return type.mul(firstOperand, secondOperand);
     }
 }

@@ -1,34 +1,14 @@
 package expression;
 
 import expression.exceptions.SqrtOfNegativeNumberException;
+import expression.generic.Type;
 
-public class CheckedSqrt extends AbstractUnaryOperations {
-    public CheckedSqrt(TripleExpression operand) {
-        super(operand);
+public class CheckedSqrt<T> extends AbstractUnaryOperations<T> {
+    public CheckedSqrt(TripleExpression<T> operand, Type<T> type) {
+        super(operand, type);
     }
 
-
-    protected void check(int operand) throws SqrtOfNegativeNumberException {
-        if (operand < 0) {
-            throw new SqrtOfNegativeNumberException();
-        }
-    }
-
-    protected int compute(int operand) throws SqrtOfNegativeNumberException {
-        check(operand);
-        if (operand < 2) {
-            return operand;
-        }
-        int left = 0;
-        int right = 46341;
-        while (left + 1 < right) {
-            int middle = (left + right) / 2;
-            if (middle * middle > operand) {
-                right = middle;
-            } else {
-                left = middle;
-            }
-        }
-        return left;
+    protected T compute(T operand) throws SqrtOfNegativeNumberException {
+        return type.sqrt(operand);
     }
 }

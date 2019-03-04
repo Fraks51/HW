@@ -1,23 +1,14 @@
 package expression;
 
 import expression.exceptions.*;
+import expression.generic.Type;
 
-public class CheckedDivide extends AbstractCommonOperations {
-    public CheckedDivide(TripleExpression firstOperand, TripleExpression secondOperand) {
-        super(firstOperand, secondOperand);
+public class CheckedDivide<T> extends AbstractCommonOperations<T> {
+    public CheckedDivide(TripleExpression<T> firstOperand, TripleExpression<T> secondOperand, Type<T> type) {
+        super(firstOperand, secondOperand, type);
     }
 
-    protected void check(int firstOperand, int secondOperand) throws IllegalOperationException {
-        if (secondOperand == 0) {
-            throw new DivisionByZeroException();
-        }
-        if (firstOperand == Integer.MIN_VALUE && secondOperand == -1) {
-            throw new OverflowOperationException("divide", firstOperand, secondOperand);
-        }
-    }
-
-    protected int compute(int firstOperand, int secondOperand) throws IllegalOperationException {
-        check(firstOperand, secondOperand);
-        return firstOperand / secondOperand;
+    protected T compute(T firstOperand, T secondOperand) throws IllegalOperationException {
+        return type.div(firstOperand, secondOperand);
     }
 }

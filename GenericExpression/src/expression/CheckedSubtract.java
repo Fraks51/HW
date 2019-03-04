@@ -1,24 +1,14 @@
 package expression;
 
 import expression.exceptions.OverflowOperationException;
+import expression.generic.Type;
 
-public class CheckedSubtract extends AbstractCommonOperations {
-    public CheckedSubtract(TripleExpression firstOperand, TripleExpression secondOperand) {
-        super(firstOperand, secondOperand);
+public class CheckedSubtract<T> extends AbstractCommonOperations<T> {
+    public CheckedSubtract(TripleExpression<T> firstOperand, TripleExpression<T> secondOperand, Type<T> type) {
+        super(firstOperand, secondOperand, type);
     }
 
-    protected void check(int firstOperand, int secondOperand) throws OverflowOperationException {
-        if (firstOperand >= 0 && secondOperand < 0 && firstOperand - Integer.MAX_VALUE > secondOperand) {
-            throw new OverflowOperationException("subtract", firstOperand, secondOperand);
-        }
-        if (firstOperand <= 0 && secondOperand > 0 && Integer.MIN_VALUE - firstOperand > -secondOperand) {
-            throw new OverflowOperationException("subtract", firstOperand, secondOperand);
-        }
-    }
-
-
-    protected int compute(int firstOperand, int secondOperand) throws OverflowOperationException {
-        check(firstOperand, secondOperand);
-        return firstOperand - secondOperand;
+    protected T compute(T firstOperand, T secondOperand) throws OverflowOperationException {
+        return type.sub(firstOperand, secondOperand);
     }
 }

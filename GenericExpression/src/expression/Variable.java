@@ -1,13 +1,16 @@
 package expression;
 
-public class Variable implements TripleExpression {
+import expression.exceptions.IllegalOperationException;
+import expression.generic.Type;
+
+public class Variable<T> implements TripleExpression<T> {
     private final char variable;
 
     public Variable(char currentVariable) {
         variable = currentVariable;
     }
 
-    public int evaluate(int x, int y, int z) {
+    public T evaluate(T x, T y, T z) throws IllegalOperationException {
         switch (variable) {
             case 'x':
                 return x;
@@ -16,6 +19,6 @@ public class Variable implements TripleExpression {
             case 'z':
                 return z;
         }
-        return 0;
+        return x;
     }
 }

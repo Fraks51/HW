@@ -2,28 +2,34 @@ package expression.parser;
 
 import expression.*;
 import expression.exceptions.*;
+import expression.generic.Type;
 
-public class ExpressionParser implements Parser, expression.exceptions.Parser {
+public class ExpressionParser<T> implements Parser<T> {
     private operation currentOperation;
+    private Type<T> type;
 
-    private ExpressionTokenizer operationsExpressionTokenizer;
+    private ExpressionTokenizer<T> operationsExpressionTokenizer;
 
-    public TripleExpression parse(String expression) throws ParsingException {
-        operationsExpressionTokenizer = new ExpressionTokenizer(expression);
+    public ExpressionParser(Type<T> type) {
+        this.type = type;
+    }
+
+    public TripleExpression<T> parse(String expression) throws ParsingException {
+        operationsExpressionTokenizer = new ExpressionTokenizer<>(expression, type);
         currentOperation = operation.NULL;
         return maxMinOperations();
     }
 
-    private TripleExpression maxMinOperations() throws ParsingException {
-        TripleExpression answer = plusMinusOperations();
+    private TripleExpression<T> maxMinOperations() throws ParsingException {
+        TripleExpression<T> answer = plusMinusOperations();
         while (true) {
             switch (currentOperation) {
                 case MAX: {
-                    answer = new Max(answer, plusMinusOperations());
+                    answer = new Max<>(answer, plusMinusOperations(), type);
                     break;
                 }
                 case MIN: {
-                    answer = new Min(answer, plusMinusOperations());
+                    answer = new Min<>(answer, plusMinusOperations(), type);
                     break;
                 }
                 default:
@@ -32,16 +38,16 @@ public class ExpressionParser implements Parser, expression.exceptions.Parser {
         }
     }
 
-    private TripleExpression plusMinusOperations() throws ParsingException {
-        TripleExpression answer = divMulOperations();
+    private TripleExpression<T> plusMinusOperations() throws ParsingException {
+        TripleExpression<T> answer = divMulOperations();
         while (true) {
             switch (currentOperation) {
                 case ADD: {
-                    answer = new CheckedAdd(answer, divMulOperations());
+                    answer = new CheckedAdd<>(answer, divMulOperations(), type);
                     break;
                 }
                 case SUBTRACT: {
-                    answer = new CheckedSubtract(answer, divMulOperations());
+                    answer = new CheckedSubtract<>(answer, divMulOperations(), type);
                     break;
                 }
                 default:
@@ -50,16 +56,16 @@ public class ExpressionParser implements Parser, expression.exceptions.Parser {
         }
     }
 
-    private TripleExpression divMulOperations() throws ParsingException {
-        TripleExpression answer = unaryOperations();
+    private TripleExpression<T> divMulOperations() throws ParsingException {
+        TripleExpression<T> answer = unaryOperations();
         while (true) {
             switch (currentOperation) {
                 case MULTIPLY: {
-                    answer = new CheckedMultiply(answer, unaryOperations());
+                    answer = new CheckedMultiply<>(answer, unaryOperations(), type);
                     break;
                 }
                 case DIVIDE: {
-                    answer = new CheckedDivide(answer, unaryOperations());
+                    answer = new CheckedDivide<>(answer, unaryOperations(), type);
                     break;
                 }
                 default:
@@ -69,22 +75,22 @@ public class ExpressionParser implements Parser, expression.exceptions.Parser {
 
     }
 
-    private TripleExpression unaryOperations() throws ParsingException {
+    private TripleExpression<T> unaryOperations() throws ParsingException {
         currentOperation = operationsExpressionTokenizer.getCurrentOperation();
-        TripleExpression answer;
+        TripleExpression<T> answer;
         switch (currentOperation) {
             case VARIABLE: {
-                answer = new Variable(operationsExpressionTokenizer.getCurrentVariable());
+                answer = new Variable<>(operationsExpressionTokenizer.getCurrentVariable());
                 currentOperation = operationsExpressionTokenizer.getCurrentOperation();
                 break;
             }
             case CONST: {
-                answer = new Const(operationsExpressionTokenizer.getCurrentConst());
+                answer = new Const<>(operationsExpressionTokenizer.getCurrentConst());
                 currentOperation = operationsExpressionTokenizer.getCurrentOperation();
                 break;
             }
             case UNARY_MINUS: {
-                answer = new CheckedNegate(unaryOperations());
+                answer = new CheckedNegate<>(unaryOperations(), type);
                 break;
             }
             case OPEN_BRACKET: {
@@ -93,19 +99,11 @@ public class ExpressionParser implements Parser, expression.exceptions.Parser {
                 break;
             }
             case ABS: {
-                answer = new CheckedAbs(unaryOperations());
+                answer = new CheckedAbs<>(unaryOperations(), type);
                 break;
             }
             case SQRT: {
-                answer = new CheckedSqrt(unaryOperations());
-                break;
-            }
-            case HIGH: {
-                answer = new High(unaryOperations());
-                break;
-            }
-            case LOW: {
-                answer = new Low(unaryOperations());
+                answer = new CheckedSqrt<>(unaryOperations(), type);
                 break;
             }
             default:

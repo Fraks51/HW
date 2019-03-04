@@ -1,19 +1,13 @@
 package expression;
 
-public class Min extends AbstractCommonOperations {
-    public Min(TripleExpression firstOperand, TripleExpression secondOperand) {
-        super(firstOperand, secondOperand);
+import expression.generic.Type;
+
+public class Min<T> extends AbstractCommonOperations<T> {
+    public Min(TripleExpression<T> firstOperand, TripleExpression<T> secondOperand, Type<T> type) {
+        super(firstOperand, secondOperand, type);
     }
 
-    protected void check(int firstOperand, int secondOperand) {
-        return;
-    }
-
-    protected int compute(int firstOperand, int secondOperand) {
-        if (firstOperand > secondOperand) {
-            return secondOperand;
-        } else {
-            return firstOperand;
-        }
+    protected T compute(T firstOperand, T secondOperand) {
+        return type.min(firstOperand, secondOperand);
     }
 }

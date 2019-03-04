@@ -1,10 +1,11 @@
 package expression.parser;
 
 import expression.exceptions.*;
+import expression.generic.Type;
 
 import java.util.ArrayDeque;
 
-public class ExpressionTokenizer {
+public class ExpressionTokenizer<T> {
     private String expression;
 
     private int currentExpressionIndex;
@@ -13,7 +14,7 @@ public class ExpressionTokenizer {
 
     private ArrayDeque<Character> variableQueue;
 
-    private ArrayDeque<Integer> constQueue;
+    private ArrayDeque<T> constQueue;
 
     private int openBracketsCounter;
 
@@ -21,7 +22,9 @@ public class ExpressionTokenizer {
 
     private boolean wasLastOperationIsEvaluate;
 
-    public ExpressionTokenizer(String expression) throws ParsingException {
+    private Type<T> type;
+
+    public ExpressionTokenizer(String expression, Type<T> type) throws ParsingException {
         this.expression = expression;
         currentExpressionIndex = 0;
         currentOperation = operation.NULL;
@@ -30,14 +33,16 @@ public class ExpressionTokenizer {
         operationsQueue = new ArrayDeque<>();
         constQueue = new ArrayDeque<>();
         wasLastOperationIsEvaluate = false;
+        this.type = type;
         makeOperationList();
+
     }
 
     public char getCurrentVariable() {
         return variableQueue.poll();
     }
 
-    public int getCurrentConst() {
+    public T getCurrentConst() {
         return constQueue.poll();
     }
 
@@ -90,29 +95,6 @@ public class ExpressionTokenizer {
             char currentChar = expression.charAt(currentExpressionIndex + 2);
             if (!Character.isWhitespace(currentChar) && currentChar != '-') {
                 throw new UnknownSymbolException(currentExpressionIndex + 2);
-            }
-        }
-    }
-
-    private void checkOnOverflowForNumber(String currentNumber) throws OverflowNumberException {
-        try {
-            Integer.parseUnsignedInt(currentNumber);
-        } catch (Exception ex) {
-            throw new OverflowNumberException(currentNumber);
-        }
-        if (-Integer.parseUnsignedInt(currentNumber) == Integer.MIN_VALUE) {
-            if (operationsQueue.getLast() == operation.UNARY_MINUS) {
-                operationsQueue.pollLast();
-                constQueue.add(Integer.MIN_VALUE);
-                return;
-            } else {
-                throw new OverflowNumberException(currentNumber);
-            }
-        } else {
-            try {
-                Integer.parseInt(currentNumber);
-            } catch (Exception ex) {
-                throw new OverflowNumberException(currentNumber);
             }
         }
     }
@@ -201,11 +183,16 @@ public class ExpressionTokenizer {
                 } else if (Character.isDigit(currentChar)) {
                     checkForEvaluate();
                     int startIndex = currentExpressionIndex - 1;
-                    while (expression.length() > currentExpressionIndex && Character.isDigit(expression.charAt(currentExpressionIndex))) {
+                    while (expression.length() > currentExpressionIndex && (Character.isDigit(expression.charAt(currentExpressionIndex)) ||
+                            expression.charAt(currentExpressionIndex) == '.')) {
                         currentExpressionIndex++;
                     }
-                    checkOnOverflowForNumber(expression.substring(startIndex, currentExpressionIndex));
-                    constQueue.add(Integer.parseUnsignedInt(expression.substring(startIndex, currentExpressionIndex)));
+                    if (!operationsQueue.isEmpty() && operationsQueue.getLast() == operation.UNARY_MINUS) {
+                        operationsQueue.pollLast();
+                        constQueue.add(type.parseNumber("-" + expression.substring(startIndex, currentExpressionIndex)));
+                    } else {
+                        constQueue.add(type.parseNumber(expression.substring(startIndex, currentExpressionIndex)));
+                    }
                     return operation.CONST;
                 } else if (expression.startsWith("abs", currentExpressionIndex - 1)) {
                     CheckUnaryAndMovePointer(2);
@@ -213,12 +200,6 @@ public class ExpressionTokenizer {
                 } else if (expression.startsWith("sqrt", currentExpressionIndex - 1)) {
                     CheckUnaryAndMovePointer(3);
                     return operation.SQRT;
-                } else if (expression.startsWith("low", currentExpressionIndex - 1)) {
-                    CheckUnaryAndMovePointer(2);
-                    return operation.LOW;
-                } else if (expression.startsWith("high", currentExpressionIndex - 1)) {
-                    CheckUnaryAndMovePointer(3);
-                    return operation.HIGH;
                 } else {
                     throw new UnknownSymbolException(currentExpressionIndex - 1);
                 }

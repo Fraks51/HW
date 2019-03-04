@@ -1,18 +1,13 @@
 package expression;
 
-public class Max extends AbstractCommonOperations {
-    public Max(TripleExpression firstOperand, TripleExpression secondOperand) {
-        super(firstOperand, secondOperand);
+import expression.generic.Type;
+
+public class Max<T> extends AbstractCommonOperations<T> {
+    public Max(TripleExpression<T> firstOperand, TripleExpression<T> secondOperand, Type<T> type) {
+        super(firstOperand, secondOperand, type);
     }
 
-    protected void check(int firstOperand, int secondOperand) {
-    }
-
-    protected int compute(int firstOperand, int secondOperand) {
-        if (firstOperand > secondOperand) {
-            return firstOperand;
-        } else {
-            return secondOperand;
-        }
+    protected T compute(T firstOperand, T secondOperand) {
+        return type.max(firstOperand, secondOperand);
     }
 }
