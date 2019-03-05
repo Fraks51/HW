@@ -14,6 +14,18 @@ public class GenericTabulator implements Tabulator {
                 type = new IntType();
                 break;
             }
+            case "u": {
+                type = new UncheckedIntType();
+                break;
+            }
+            case "f": {
+                type = new FloatType();
+                break;
+            }
+            case "b": {
+                type = new ByteType();
+                break;
+            }
             case "d": {
                 type = new DoubleType();
                 break;
