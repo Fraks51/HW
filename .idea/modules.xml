@@ -3,8 +3,14 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BinarySearch/BinarySearch.iml" filepath="$PROJECT_DIR$/BinarySearch/BinarySearch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ExpretionParseWithExeption/ExpretionParseWithExeption.iml" filepath="$PROJECT_DIR$/ExpretionParseWithExeption/ExpretionParseWithExeption.iml" />
       <module fileurl="file://$PROJECT_DIR$/GenericExpression/GenericExpression.iml" filepath="$PROJECT_DIR$/GenericExpression/GenericExpression.iml" />
       <module fileurl="file://$PROJECT_DIR$/HW.iml" filepath="$PROJECT_DIR$/HW.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Interface Queue/Interface Queue.iml" filepath="$PROJECT_DIR$/Interface Queue/Interface Queue.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Markdown2HtmlParser/Markdown2HtmlParser.iml" filepath="$PROJECT_DIR$/Markdown2HtmlParser/Markdown2HtmlParser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Queue/Queue.iml" filepath="$PROJECT_DIR$/Queue/Queue.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Scanner/Scanner.iml" filepath="$PROJECT_DIR$/Scanner/Scanner.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ScannerWords/ScannerWords.iml" filepath="$PROJECT_DIR$/ScannerWords/ScannerWords.iml" />
     </modules>
   </component>
 </project>

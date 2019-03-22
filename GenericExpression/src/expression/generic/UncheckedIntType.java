@@ -7,15 +7,15 @@ import expression.exceptions.SqrtOfNegativeNumberException;
 
 public class UncheckedIntType implements Type<Integer> {
 
-    public Integer add(final Integer firstOperand, final Integer secondOperand) throws OverflowOperationException {
+    public Integer add(final Integer firstOperand, final Integer secondOperand) {
         return firstOperand + secondOperand;
     }
 
-    public Integer sub(final Integer firstOperand, final Integer secondOperand) throws OverflowOperationException {
+    public Integer sub(final Integer firstOperand, final Integer secondOperand) {
         return firstOperand - secondOperand;
     }
 
-    public Integer mul(final Integer firstOperand, final Integer secondOperand) throws OverflowOperationException {
+    public Integer mul(final Integer firstOperand, final Integer secondOperand) {
         return firstOperand * secondOperand;
     }
 
@@ -50,18 +50,18 @@ public class UncheckedIntType implements Type<Integer> {
         return (int) Math.sqrt(operand);
     }
 
-    public Integer negate(final Integer operand) throws OverflowOperationException {
+    public Integer negate(final Integer operand) {
         return -operand;
     }
 
-    public Integer div(final Integer firstOperand, final Integer secondOperand) throws DivisionByZeroException, OverflowOperationException {
+    public Integer div(final Integer firstOperand, final Integer secondOperand) throws DivisionByZeroException {
         if (secondOperand == 0) {
             throw new DivisionByZeroException();
         }
         return firstOperand / secondOperand;
     }
 
-    public Integer abs(final Integer operand) throws OverflowOperationException {
+    public Integer abs(final Integer operand) {
         if (operand >= 0) {
             return operand;
         } else {

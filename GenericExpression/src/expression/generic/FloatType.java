@@ -1,16 +1,14 @@
 package expression.generic;
 
-import expression.exceptions.DivisionByZeroException;
 import expression.exceptions.OverflowNumberException;
-import expression.exceptions.OverflowOperationException;
 import expression.exceptions.SqrtOfNegativeNumberException;
 
 public class FloatType implements Type<Float> {
-    public Float add(Float firstOperand, Float secondOperand) throws OverflowOperationException {
+    public Float add(Float firstOperand, Float secondOperand) {
         return firstOperand + secondOperand;
     }
 
-    public Float sub(Float firstOperand, Float secondOperand) throws OverflowOperationException {
+    public Float sub(Float firstOperand, Float secondOperand) {
         return firstOperand - secondOperand;
     }
 
@@ -45,19 +43,19 @@ public class FloatType implements Type<Float> {
         return (float) Math.sqrt(operand);
     }
 
-    public Float negate(Float operand) throws OverflowOperationException {
+    public Float negate(Float operand) {
         return -operand;
     }
 
-    public Float mul(Float firstOperand, Float secondOperand) throws OverflowOperationException {
+    public Float mul(Float firstOperand, Float secondOperand) {
         return firstOperand * secondOperand;
     }
 
-    public Float div(Float firstOperand, Float secondOperand) throws DivisionByZeroException, OverflowOperationException {
+    public Float div(Float firstOperand, Float secondOperand) {
         return firstOperand / secondOperand;
     }
 
-    public Float abs(Float operand) throws OverflowOperationException {
+    public Float abs(Float operand) {
         if (operand >= 0) {
             return operand;
         } else {

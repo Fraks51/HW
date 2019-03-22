@@ -9,15 +9,15 @@ import java.math.BigInteger;
 
 public class BigIntType implements Type<BigInteger> {
 
-    public BigInteger add(BigInteger firstOperand, BigInteger secondOperand) throws OverflowOperationException {
+    public BigInteger add(BigInteger firstOperand, BigInteger secondOperand) {
         return firstOperand.add(secondOperand);
     }
 
-    public BigInteger sub(BigInteger firstOperand, BigInteger secondOperand) throws OverflowOperationException {
+    public BigInteger sub(BigInteger firstOperand, BigInteger secondOperand) {
         return firstOperand.subtract(secondOperand);
     }
 
-    public BigInteger parseNumber(String number) throws OverflowNumberException {
+    public BigInteger parseNumber(String number) {
         return new BigInteger(number);
     }
 
@@ -36,22 +36,23 @@ public class BigIntType implements Type<BigInteger> {
         return operand.sqrt();
     }
 
-    public BigInteger negate(BigInteger operand) throws OverflowOperationException {
+    public BigInteger negate(BigInteger operand) {
         return operand.negate();
     }
 
-    public BigInteger mul(BigInteger firstOperand, BigInteger secondOperand) throws OverflowOperationException {
+    public BigInteger mul(BigInteger firstOperand, BigInteger secondOperand) {
         return firstOperand.multiply(secondOperand);
     }
 
-    public BigInteger div(BigInteger firstOperand, BigInteger secondOperand) throws DivisionByZeroException, OverflowOperationException {
+    public BigInteger div(BigInteger firstOperand, BigInteger secondOperand) throws DivisionByZeroException {
         if (secondOperand.compareTo(BigInteger.ZERO) == 0) {
             throw new DivisionByZeroException();
         }
         return firstOperand.divide(secondOperand);
     }
 
-    public BigInteger abs(BigInteger operand) throws OverflowOperationException {
+    public BigInteger abs(BigInteger operand) {
         return operand.abs();
     }
+
 }

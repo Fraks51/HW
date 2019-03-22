@@ -1,8 +1,6 @@
 package expression.generic;
 
 import expression.exceptions.DivisionByZeroException;
-import expression.exceptions.OverflowNumberException;
-import expression.exceptions.OverflowOperationException;
 import expression.exceptions.SqrtOfNegativeNumberException;
 
 public class ByteType implements Type<Byte> {
@@ -57,11 +55,18 @@ public class ByteType implements Type<Byte> {
         return (byte) (firstOperand / secondOperand);
     }
 
-    public Byte abs(Byte operand) throws OverflowOperationException {
+    public Byte abs(Byte operand) {
         if (operand >= 0) {
             return operand;
         } else {
             return (byte) -operand;
         }
+    }
+
+    public Byte mod(Byte firstOperand, Byte secondOperand) throws DivisionByZeroException {
+        if (secondOperand == 0) {
+            throw new DivisionByZeroException();
+        }
+        return (byte) (firstOperand % secondOperand);
     }
 }

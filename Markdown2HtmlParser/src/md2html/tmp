@@ -1,0 +1,35 @@
+package md2html;
+
+import java.io.IOException;
+import java.util.Stack;
+
+import static md2html.Tags.*;
+
+public class Md2HtmlParser {
+    private Md2HtmlSource source;
+    private Stack<Tags> tagsStack;
+    private StringBuilder finalHtmlFile;
+    private char currentChar;
+
+    public Md2HtmlParser(Md2HtmlSource source) {
+        this.source = source;
+        finalHtmlFile = new StringBuilder();
+        tagsStack = new Stack<>();
+    }
+    private void headlineEnd(int lvl) {
+        tagsStack.pop();
+        finalHtmlFile.append(String.format("</h%d>\n", lvl));
+    }
+
+    public String parse() throws IOException, Md2HtmlException {
+        while (source.nextChar() != Md2HtmlSource.END) {
+            currentChar = source.getChar();
+            switch (currentChar) {
+
+            }
+        }
+        return finalHtmlFile.toString();
+    }
+
+
+}

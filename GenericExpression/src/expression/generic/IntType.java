@@ -93,5 +93,4 @@ public class IntType implements Type<Integer> {
             return -operand;
         }
     }
-
 }

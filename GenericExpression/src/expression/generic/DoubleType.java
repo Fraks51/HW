@@ -1,6 +1,5 @@
 package expression.generic;
 
-import expression.exceptions.DivisionByZeroException;
 import expression.exceptions.OverflowNumberException;
 import expression.exceptions.OverflowOperationException;
 import expression.exceptions.SqrtOfNegativeNumberException;
@@ -46,19 +45,19 @@ public class DoubleType implements Type<Double> {
         return Math.sqrt(operand);
     }
 
-    public Double negate(Double operand) throws OverflowOperationException {
+    public Double negate(Double operand) {
         return -operand;
     }
 
-    public Double mul(Double firstOperand, Double secondOperand) throws OverflowOperationException {
+    public Double mul(Double firstOperand, Double secondOperand) {
         return firstOperand * secondOperand;
     }
 
-    public Double div(Double firstOperand, Double secondOperand) throws DivisionByZeroException, OverflowOperationException {
+    public Double div(Double firstOperand, Double secondOperand) {
         return firstOperand / secondOperand;
     }
 
-    public Double abs(Double operand) throws OverflowOperationException {
+    public Double abs(Double operand) {
         if (operand >= 0) {
             return operand;
         } else {
